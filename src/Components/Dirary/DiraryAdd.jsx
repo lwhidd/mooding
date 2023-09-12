@@ -29,16 +29,16 @@ function DiraryAdd(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { diaryId } = props;
-    if (diaryId) {
-      loadDiary(diaryId);
+    const { diraryId } = props;
+    if (diraryId) {
+      loaddirary(diraryId);
     }
-  }, [props.diaryId]);
+  }, [props.diraryId]);
 
   // 서버에서 일기 데이터를 가져오는 함수
-  const loadDiary = async (diaryId) => {
+  const loaddirary = async (diraryId) => {
     try {
-      const response = await axios.get(`/api/diaries/${diaryId}`);
+      const response = await axios.get(`/api/diaries/${diraryId}`);
       setContent(response.data.content);
       setSelectedEmotion(response.data.emotion); // 수정 시 감정 선택 상태 초기화
       setIsEditMode(true);
@@ -47,15 +47,24 @@ function DiraryAdd(props) {
     }
   };
 
+  function generateUniqueId() {
+    return new Date().getTime().toString(36) + Math.random().toString(36).substring(2);
+  }
+
+
   // 로컬 스토리지에 일기 데이터 저장
-  const saveDiaryToLocalStorage = (diraryData) => {
+  const savediraryToLocalStorage = (diraryData) => {
     const existingData = JSON.parse(localStorage.getItem('diraryData')) || [];
-    const newData = [...existingData, diraryData];
+    const newdiraryData = {
+      ...diraryData,
+      id: generateUniqueId(), // 여기서 generateUniqueId()는 고유한 ID를 생성하는 함수입니다.
+    };
+    const newData = [...existingData, newdiraryData];
     localStorage.setItem('diraryData', JSON.stringify(newData));
   };
 
   // 일기 작성 완료 및 저장 처리
-  const handleSaveDiary = async () => {
+  const handleSavedirary = async () => {
     if (!selectedEmotion) {
       alert('감정을 선택하세요.');
       return;
@@ -75,7 +84,7 @@ function DiraryAdd(props) {
       };
 
       // 로컬 스토리지에 일기 데이터 저장
-      saveDiaryToLocalStorage(newDiraryData);
+      savediraryToLocalStorage(newDiraryData);
       navigate(`/allDirary?content=${encodeURIComponent(content)}`);
       alert('작성 완료');
       setContent('');
@@ -103,7 +112,7 @@ function DiraryAdd(props) {
           isEditMode={isEditMode}
           content={content}
           setContent={setContent}
-          handleSaveDiary={handleSaveDiary}
+          handleSavedirary={handleSavedirary}
         />
       </div>
     </div>
@@ -150,7 +159,7 @@ function DiraryForm({
   isEditMode,
   content,
   setContent,
-  handleSaveDiary,
+  handleSavedirary,
   selectedImage,
   handleImageChange,
 }) {
@@ -180,7 +189,7 @@ function DiraryForm({
             onChange={handleImageChange}
           />
         </div>
-        <button className="completed" onClick={handleSaveDiary}>
+        <button className="completed" onClick={handleSavedirary}>
           {isEditMode ? '수정하기' : '작성 완료'} {/* 수정 모드인 경우 버튼 텍스트 변경 */}
         </button>
       </div>

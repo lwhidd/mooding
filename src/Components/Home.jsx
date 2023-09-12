@@ -6,6 +6,7 @@ const Home = () => {
   // 현재 날짜와 선택된 날짜를 관리하는 상태 변수
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+  const [isLogin, setIsLogin] = useState(false); // 로그인 상태를 저장하는 상태 변수
 
   // 이전 달로 이동하는 함수
   const onClickPreviousMonth = () => {
@@ -31,7 +32,6 @@ const Home = () => {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const today = new Date(); today.setDate(today.getDate() - 1);
-    const daysInMonth = lastDay.getDate();
     const startDate = new Date(firstDay.getFullYear(), firstDay.getMonth(), firstDay.getDate() - firstDay.getDay());
     const endDate = new Date(lastDay.getFullYear(), lastDay.getMonth(), lastDay.getDate() + (6 - lastDay.getDay()));
 
@@ -68,41 +68,45 @@ const Home = () => {
 
   return (
     <>
-      <main id='main'>
-        <div className="container">
-          <div className="title">
-            <h1 className='main-title'>Mooding</h1>
-            <h1 className='sub-title'>- 하루의 감정을 기록하세요</h1>
-          </div>
-          <div className="calendar">
-            <div className="calendar-header">
-              <button onClick={onClickPreviousMonth}><img src="./img/arrow.png" alt="" className='arrow-rotate' /></button>
-              <h2>{currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
-              <button onClick={onClickNextMonth}><img src="./img/arrow.png" alt="" className='arrow' /></button>
+      {isLogin ? (
+        <main id='main'>
+          <div className="container">
+            <div className="title">
+              <h1 className='main-title'>Mooding</h1>
+              <h1 className='sub-title'>- 하루의 감정을 기록하세요</h1>
             </div>
-            <div className="calendar-body">
-              <div className="calendar-grid">
-                <div className="calendar-date common-date sun"><span>일</span></div>
-                <div className="calendar-date common-date mon"><span>월</span></div>
-                <div className="calendar-date common-date tue"><span>화</span></div>
-                <div className="calendar-date common-date wed"><span>수</span></div>
-                <div className="calendar-date common-date thu"><span>목</span></div>
-                <div className="calendar-date common-date fri"><span>금</span></div>
-                <div className="calendar-date common-date sat"><span>토</span></div>
-                {renderCalendar()}
+            <div className="calendar">
+              <div className="calendar-header">
+                <button onClick={onClickPreviousMonth}><img src="./img/arrow.png" alt="" className='arrow-rotate' /></button>
+                <h2>{currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
+                <button onClick={onClickNextMonth}><img src="./img/arrow.png" alt="" className='arrow' /></button>
+              </div>
+              <div className="calendar-body">
+                <div className="calendar-grid">
+                  <div className="calendar-date common-date sun"><span>일</span></div>
+                  <div className="calendar-date common-date mon"><span>월</span></div>
+                  <div className="calendar-date common-date tue"><span>화</span></div>
+                  <div className="calendar-date common-date wed"><span>수</span></div>
+                  <div className="calendar-date common-date thu"><span>목</span></div>
+                  <div className="calendar-date common-date fri"><span>금</span></div>
+                  <div className="calendar-date common-date sat"><span>토</span></div>
+                  {renderCalendar()}
+                </div>
+              </div>
+              <div className="dirary-add">
+                <Link to='diraryAdd'>
+                  <span>
+                    오늘 하루 감정 기록하러 가기
+                    <img src="./img/arrow.png" alt="" />
+                  </span>
+                </Link>
               </div>
             </div>
-            <div className="dirary-add">
-              <Link to='diraryAdd'>
-                <span>
-                  오늘 하루 감정 기록하러 가기
-                  <img src="./img/arrow.png" alt="" />
-                </span>
-              </Link>
-            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      ) : (
+        <Login />
+      )}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import orange from './emoji-img/orange.png';
@@ -18,6 +18,7 @@ const emotionImages = {
 
 function DiraryAdd(props) {
   const [content, setContent] = useState('');
+  const { diraryId } = useParams();
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedEmotion, setSelectedEmotion] = useState('');
   const [currentDate, setCurrentDate] = useState('');
@@ -30,16 +31,16 @@ function DiraryAdd(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { diaryId } = props;
-    if (diaryId) {
-      loadDiary(diaryId);
+    const { diraryId } = props;
+    if (diraryId) {
+      loaddirary(diraryId);
     }
     CurrentDate();
-  }, [props.diaryId]);
+  }, [props.diraryId]);
 
-  const loadDiary = async (diaryId) => {
+  const loaddirary = async (diraryId) => {
     try {
-      const response = await axios.get(`/api/diaries/${diaryId}`);
+      const response = await axios.get(`/api/diaries/${diraryId}`);
       setContent(response.data.content);
       setIsEditMode(true);
     } catch (error) {
@@ -53,20 +54,32 @@ function DiraryAdd(props) {
     setCurrentDate(formattedDate);
   };
 
-  const saveDiaryToLocalStorage = (diaryData) => {
-    const existingData = JSON.parse(localStorage.getItem('diaryData')) || [];
-    const newData = [...existingData, diaryData];
-    localStorage.setItem('diaryData', JSON.stringify(newData));
+  const savediraryToLocalStorage = (diraryData) => {
+    const storedDiaries = JSON.parse(localStorage.getItem('diraryData')) || [];
+    const updatedDiaries = storedDiaries.map((dirary) => {
+      if (dirary.id === diraryId) {
+        // 선택한 일기를 수정하고 저장
+        return {
+          ...dirary,
+          content: diraryData.content,
+          emotion: diraryData.emotion,
+          selectedImage: diraryData.selectedImage,
+        };
+      }
+      return dirary;
+    });
+
+    localStorage.setItem('diraryData', JSON.stringify(updatedDiaries));
   };
 
-  const handleSaveDiary = async () => {
+  const handleSavedirary = async () => {
     if (!content.trim()) {
       alert('일기 내용을 입력하세요.');
       return;
     }
 
     try {
-      const newDiaryData = {
+      const newdiraryData = {
         content,
         emotion: selectedEmotion,
         selectedImage: selectedImage,
@@ -74,8 +87,8 @@ function DiraryAdd(props) {
         // 필요한 다른 데이터를 추가하세요.
       };
 
-      // setNewData((prevData) => [...prevData, newDiaryData]);
-      saveDiaryToLocalStorage(newDiaryData);
+      // setNewData((prevData) => [...prevData, newdiraryData]);
+      savediraryToLocalStorage(newdiraryData);
       navigate(`/allDirary?content=${encodeURIComponent(content)}`);
       alert('수정 완료');
       setContent('');
@@ -115,7 +128,7 @@ function DiraryAdd(props) {
           isEditMode={isEditMode}
           content={content}
           setContent={setContent}
-          handleSaveDiary={handleSaveDiary}
+          handleSavedirary={handleSavedirary}
           selectedImage={selectedImage}
           handleImageChange={handleImageChange}
         />
@@ -160,7 +173,7 @@ function DiraryForm({
   isEditMode,
   content,
   setContent,
-  handleSaveDiary,
+  handleSavedirary,
   selectedImage,
   handleImageChange,
 }) {
@@ -199,7 +212,7 @@ function DiraryForm({
             onChange={handleImageChange}
           />
         </div>
-        <button className="completed" onClick={handleSaveDiary}>
+        <button className="completed" onClick={handleSavedirary}>
           수정 완료
         </button>
       </div>

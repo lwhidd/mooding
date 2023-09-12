@@ -132,7 +132,7 @@ const Alldirary = () => {
               </Link>
               <div className="edit-delete-btn-box">
                 <button className='dirary-edit-btn'>
-                  <Link to='/DiraryEdit' >수정하기</Link>
+                  <Link to={`/diraryEdit/${dirary.diaryId}`} >수정하기</Link>
                 </button>
                 <button className='dirary-delete-btn'>삭제하기</button>
               </div>
