@@ -6,7 +6,6 @@
   height: 100%;
   position: relative;
   z-index: 2;
-  background-color: #ddd;
   border-radius: 16px;
 }
 #main .container {
@@ -92,6 +91,7 @@
   border: none;
   background: rgba(255, 255, 255, 0.5019607843);
   cursor: pointer;
+  border: 1px solid #000;
 }
 #main .container .calendar .calendar-body .calendar-grid .calendar-date span {
   font-size: 20px;

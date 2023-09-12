@@ -11,11 +11,11 @@ import blueberry from './emoji-img/blueberry.png';
 
 // 감정 이미지와 감정을 연결하는 객체
 const emotionImages = {
-  '완전 좋음': orange,
-  '좋음': lemon,
+  '행복': orange,
+  '기쁨': lemon,
   '그럭저럭': avocado,
-  '힘듦': blueberry,
-  '매우 힘듦': tomato,
+  '슬픔': blueberry,
+  '짜증': tomato,
 };
 
 function DiraryAdd(props) {
@@ -48,10 +48,10 @@ function DiraryAdd(props) {
   };
 
   // 로컬 스토리지에 일기 데이터 저장
-  const saveDiaryToLocalStorage = (diaryData) => {
-    const existingData = JSON.parse(localStorage.getItem('diaryData')) || [];
-    const newData = [...existingData, diaryData];
-    localStorage.setItem('diaryData', JSON.stringify(newData));
+  const saveDiaryToLocalStorage = (diraryData) => {
+    const existingData = JSON.parse(localStorage.getItem('diraryData')) || [];
+    const newData = [...existingData, diraryData];
+    localStorage.setItem('diraryData', JSON.stringify(newData));
   };
 
   // 일기 작성 완료 및 저장 처리
@@ -67,7 +67,7 @@ function DiraryAdd(props) {
     }
 
     try {
-      const newDiaryData = {
+      const newDiraryData = {
         content,
         emotion: selectedEmotion,
         date: formattedDate,
@@ -75,7 +75,7 @@ function DiraryAdd(props) {
       };
 
       // 로컬 스토리지에 일기 데이터 저장
-      saveDiaryToLocalStorage(newDiaryData);
+      saveDiaryToLocalStorage(newDiraryData);
       navigate(`/allDirary?content=${encodeURIComponent(content)}`);
       alert('작성 완료');
       setContent('');

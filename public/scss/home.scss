@@ -6,7 +6,6 @@
     height: 100%;
     position: relative;
     z-index: 2;
-    background-color: #ddd;
     border-radius: 16px;
 
     .container {
@@ -98,6 +97,7 @@
               border: none;
               background: #ffffff80;
               cursor: pointer;
+              border: 1px solid #000;
 
               span {
                 font-size: 20px;

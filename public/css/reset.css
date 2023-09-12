@@ -13,13 +13,13 @@ body {
 }
 
 html {
-  /* overflow-y: scroll; */
-  /* scroll-behavior: smooth; */
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 /* 스무스 스크롤링 */
 body {
-  font: normal 14px/1 'Nanum Myeongjo', '나눔고딕', 'Montserrat', 'Roboto';
+  font: normal 14px/1 'Nanum Pen Script', '나눔고딕', 'Montserrat', 'Roboto';
   color: #000;
   background: beige;
 }
@@ -64,4 +64,8 @@ a {
 
 .hide {
   display: none;
+}
+
+button {
+  font-family: 'Nanum Pen Script';
 }

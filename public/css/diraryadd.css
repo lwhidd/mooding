@@ -6,7 +6,6 @@
   height: 100%;
   position: relative;
   z-index: 2;
-  background-color: #ddd;
   border-radius: 16px;
 }
 #diraryAdd .container {
@@ -56,7 +55,7 @@
 }
 #diraryAdd .container .today-emotion .select-emotion button span {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 25px;
   padding: 10px 0;
   color: #000;
 }
@@ -143,5 +142,5 @@
   cursor: pointer;
   background-color: #64c964;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 25px;
 }

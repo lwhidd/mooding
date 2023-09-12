@@ -8,42 +8,42 @@ import avocado from './emoji-img/avocado.png';
 import tomato from './emoji-img/tomato.png';
 import blueberry from './emoji-img/blueberry.png';
 
-const AllDiary = () => {
-  const [loadedDiaries, setLoadedDiaries] = useState([]);
+const Alldirary = () => {
+  const [loadedDiraries, setLoadedDiraries] = useState([]);
   const [sortOrder, setSortOrder] = useState('최신순'); // 정렬 방법 상태
   const [emotionFilter, setEmotionFilter] = useState('모든 감정'); // 감정 필터 상태
 
   // 감정 이미지와 감정을 연결하는 객체
   const emotionImages = {
-    '완전 좋음': orange,
-    '좋음': lemon,
+    '행복': orange,
+    '기쁨': lemon,
     '그럭저럭': avocado,
-    '힘듦': blueberry,
-    '매우 힘듦': tomato,
+    '슬픔': blueberry,
+    '짜증': tomato,
   };
 
   // 로컬 스토리지에서 일기 데이터를 불러오기 위한 훅
   useEffect(() => {
-    const storedDiaries = localStorage.getItem('diaryData');
-    if (storedDiaries) {
-      const parsedDiaries = JSON.parse(storedDiaries);
+    const loadedDiraries = localStorage.getItem('diraryData');
+    if (loadedDiraries) {
+      const parsedDiaries = JSON.parse(loadedDiraries);
       // 데이터를 불러온 후에 감정 필터링을 수행합니다.
       const filteredDiaries = filterDiariesByEmotion(parsedDiaries);
-      setLoadedDiaries(filteredDiaries);
+      setLoadedDiraries(filteredDiaries);
     }
   }, [emotionFilter]); // 감정 필터 상태가 변경될 때마다 실행됩니다.
 
   // 일기 데이터를 화면에 표시하는 함수
   // const renderDiaries = () => {
-  //   return loadedDiaries.map((diary, index) => (
+  //   return loadedDiraries.map((dirary, index) => (
   //     <div key={index} className="dirary-info">
   //       <div className="emotion-img-box">
   //         {/* 감정 이미지를 표시합니다. */}
-  //         <img src={emotionImages[diary.emotion]} alt={diary.emotion} />
+  //         <img src={emotionImages[dirary.emotion]} alt={dirary.emotion} />
   //       </div>
-  //       <div className='info-box' onClick={() => handleViewButtonClick(diary)}>
-  //         <div className='dirary-date' onClick={() => handleViewButtonClick(diary)}>{diary.date}</div>
-  //         <div className='dirary-content' onClick={() => handleViewButtonClick(diary)} >{diary.content}</div>
+  //       <div className='info-box' onClick={() => handleViewButtonClick(dirary)}>
+  //         <div className='dirary-date' onClick={() => handleViewButtonClick(dirary)}>{dirary.date}</div>
+  //         <div className='dirary-content' onClick={() => handleViewButtonClick(dirary)} >{dirary.content}</div>
   //       </div>
   //       {/* 수정하기 버튼을 추가하고, 클릭 시 수정 페이지로 이동합니다. */}
   //       <Link to='/DiraryEdit' className='dirary-edit-btn'>수정하기</Link>
@@ -77,18 +77,14 @@ const AllDiary = () => {
     if (emotionFilter === '모든 감정') {
       return diaries; // 모든 감정 데이터 표시
     } else {
-      return diaries.filter((diary) => diary.emotion === emotionFilter);
+      return diaries.filter((dirary) => dirary.emotion === emotionFilter);
     }
   };
 
-  const handleViewButtonClick = (diary) => {
+  const handleViewButtonClick = (dirary) => {
     // 선택한 다이어리 데이터를 다른 페이지로 전달
-    localStorage.setItem('selectedDiary', JSON.stringify(diary));
-    // 이후 페이지 이동
-    window.location.href = '/DiraryView'; // 또는 원하는 경로로 이동
+    localStorage.setItem('selecteddirary', JSON.stringify(dirary));
   };
-
-
 
   return (
     <div id='allDirary'>
@@ -104,11 +100,11 @@ const AllDiary = () => {
           <select className='sort-menu' onChange={handleEmotionFilterChange} >
             <option value="모든 감정">모든 감정</option>
             {/* 감정 종류 및 감정 이미지를 선택하는 옵션을 제공합니다. */}
-            <option value="완전 좋음" className="select orange">🍊완전 좋음</option>
-            <option value="좋음" className="select lemon">🍋좋음</option>
+            <option value="행복" className="select orange">🍊행복</option>
+            <option value="기쁨" className="select lemon">🍋기쁨</option>
             <option value="그럭저럭" className="select avocado">🥑그럭저럭</option>
-            <option value="힘듦" className="select blueberry">🍇힘듦</option>
-            <option value="매우 힘듦" className="select tomato">🍅매우 힘듦</option>
+            <option value="슬픔" className="select blueberry">🍇슬픔</option>
+            <option value="짜증" className="select tomato">🍅짜증</option>
           </select>
           <div className='dirary-write'>
             {/* "새 일기 쓰기" 버튼을 추가하고, 클릭 시 일기 작성 페이지로 이동합니다. */}
@@ -116,27 +112,37 @@ const AllDiary = () => {
           </div>
         </div>
         <div className='dirary-list'>
-          {loadedDiaries.map((diary, index) => (
-            <Link
-              to='/diraryView'
-              className='dirary-info'
-              key={index}
-            >
-              <div className="emotion-img-box">
-                {/* 감정 이미지를 표시합니다. */}
-                <img src={emotionImages[diary.emotion]} alt={diary.emotion} />
+          {loadedDiraries.map((dirary, index) => (
+            <div className='dirary-info'>
+              <Link
+                to='/diraryView'
+                className='dirary-view-link'
+                key={index}
+                onClick={() => handleViewButtonClick(dirary)} // 클릭 시 데이터 전달
+              >
+                <div className="emotion-img-box">
+                  {/* 감정 이미지를 표시합니다. */}
+                  <img src={emotionImages[dirary.emotion]} alt={dirary.emotion} />
+                  <h2>&lt; {dirary.emotion} &gt;</h2>
+                </div>
+                <div className='info-box'>
+                  <div className='dirary-date'>{dirary.date}</div>
+                  <div className='dirary-content'>{dirary.content.slice(0, 50)}&nbsp;···</div>
+                </div>
+              </Link>
+              <div className="edit-delete-btn-box">
+                <button className='dirary-edit-btn'>
+                  <Link to='/DiraryEdit' >수정하기</Link>
+                </button>
+                <button className='dirary-delete-btn'>삭제하기</button>
               </div>
-              <div className='info-box'>
-                <div className='dirary-date'>{diary.date}</div>
-                <div className='dirary-content'>{diary.content.slice(0, 50)}···</div>
-              </div>
-              <Link to='/DiraryEdit' className='dirary-edit-btn'>수정하기</Link>
-            </Link>
+            </div>
           ))}
+
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
-export default AllDiary;
+export default Alldirary;
