@@ -1,0 +1,113 @@
+#allDirary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  background-color: #ddd;
+  border-radius: 16px;
+}
+#allDirary .container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 30px;
+  background: #f0f0f0;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#allDirary .container .title {
+  padding-bottom: 30px;
+}
+#allDirary .container .title h1 {
+  font-size: 40px;
+  text-align: center;
+  color: #000;
+}
+#allDirary .container .sort-emotion {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+#allDirary .container .sort-emotion .sort-menu {
+  width: 30%;
+  margin-right: 10px;
+  border: none;
+  border-radius: 16px;
+  background-color: #ececec;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#allDirary .container .sort-emotion .sort-menu option {
+  display: block;
+  padding: 0 2px 1px;
+  font-weight: bold;
+}
+#allDirary .container .sort-emotion .dirary-write {
+  width: 100%;
+}
+#allDirary .container .sort-emotion .dirary-write a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 42px;
+  color: #000;
+  background-color: #64c964;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+}
+#allDirary .container .dirary-list {
+  width: 100%;
+  color: #000;
+}
+#allDirary .container .dirary-list .dirary-info {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: space-between;
+}
+#allDirary .container .dirary-list .dirary-info .emotion-img-box {
+  cursor: pointer;
+  min-width: 120px;
+  height: 80px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+#allDirary .container .dirary-list .dirary-info .emotion-img-box img {
+  width: 50%;
+}
+#allDirary .container .dirary-list .dirary-info .info-box {
+  flex-grow: 1;
+  margin-left: 20px;
+  cursor: pointer;
+  padding-top: 10px;
+}
+#allDirary .container .dirary-list .dirary-info .info-box .dirary-date {
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+#allDirary .container .dirary-list .dirary-info .info-box .dirary-content {
+  font-size: 18px;
+}
+#allDirary .container .dirary-list .dirary-info .dirary-edit-btn {
+  display: flex;
+  align-items: center;
+  min-width: 70px;
+  background-color: #ececec;
+  color: black;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 18px;
+  white-space: nowrap;
+}

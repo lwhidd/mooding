@@ -1,0 +1,21 @@
+@import url(../css/login.css);
+@import url(../css/fonts.css);
+@import url(../css/reset.css);
+@import url(../css/home.css);
+@import url(../css/header.css);
+@import url(../css/alldirary.css);
+@import url(../css/diraryadd.css);
+@import url(../css/diraryview.css);
+
+#root {
+  width: 100%;
+
+  #wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 1200px;
+    margin: 0 auto;
+  }
+}
