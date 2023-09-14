@@ -1,11 +1,15 @@
+@charset "UTF-8";
 #allDirary {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin: 30px;
   position: relative;
   z-index: 2;
   border-radius: 16px;
+  background-color: #FFDDC1;
+  /* 파스텔 오렌지 */
 }
 #allDirary .container {
   width: 100%;
@@ -19,9 +23,8 @@
   padding-bottom: 30px;
 }
 #allDirary .container .title h1 {
-  font-size: 40px;
+  font-size: 60px;
   text-align: center;
-  color: #000;
 }
 #allDirary .container .sort-emotion {
   display: flex;
@@ -34,7 +37,8 @@
   margin-right: 10px;
   border: none;
   border-radius: 16px;
-  background-color: #ececec;
+  background-color: #E0B1CB;
+  /* 파스텔 핑크 */
   padding: 10px 20px;
   font-size: 18px;
   font-weight: bold;
@@ -56,10 +60,13 @@
   align-items: center;
   width: 100%;
   height: 42px;
-  background-color: #64c964;
+  background-color: #9ED2B6;
+  /* 파스텔 민트 */
   border-radius: 5px;
   font-size: 25px;
   font-weight: bold;
+  color: #fff;
+  /* 파스텔 화이트 */
 }
 #allDirary .container .dirary-list {
   width: 100%;
@@ -93,7 +100,7 @@
 }
 #allDirary .container .dirary-list .dirary-info .dirary-view-link .emotion-img-box h2 {
   font-size: 20px;
-  padding-top: 10px;
+  margin-top: 10px;
 }
 #allDirary .container .dirary-list .dirary-info .dirary-view-link .info-box {
   flex-grow: 1;
@@ -117,8 +124,10 @@
 #allDirary .container .dirary-list .dirary-info .edit-delete-btn-box button {
   min-width: 70px;
   height: 100%;
-  background-color: #ececec;
-  color: black;
+  background-color: #E0B1CB;
+  /* 파스텔 핑크 */
+  color: #3D315B;
+  /* 파스텔 네이비 */
   cursor: pointer;
   border: none;
   border-radius: 5px;
@@ -127,9 +136,11 @@
   white-space: nowrap;
 }
 #allDirary .container .dirary-list .dirary-info .edit-delete-btn-box button.dirary-edit-btn {
-  background-color: #64c964;
+  background-color: #9ED2B6;
+  /* 파스텔 민트 */
 }
 #allDirary .container .dirary-list .dirary-info .edit-delete-btn-box button.dirary-delete-btn {
-  background-color: #c96464;
+  background-color: #FDCB92;
+  /* 파스텔 오렌지 */
   margin-top: 12px;
 }

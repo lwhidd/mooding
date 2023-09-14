@@ -26,40 +26,30 @@ const Alldirary = () => {
   useEffect(() => {
     const loadedDiraries = localStorage.getItem('diraryData');
     if (loadedDiraries) {
-      const parsedDiaries = JSON.parse(loadedDiraries);
-      // 데이터를 불러온 후에 감정 필터링을 수행합니다.
-      const filteredDiaries = filterDiariesByEmotion(parsedDiaries);
+      const parsedDiraries = JSON.parse(loadedDiraries);
+
+      // 배열로 변환 (객체가 아닌 경우 처리)
+      const diraryArray = Array.isArray(parsedDiraries) ? parsedDiraries : [parsedDiraries];
+
+      const sortedDiraries = [...diraryArray]; // 배열 복사
+
+      // 정렬 방식에 따라 데이터를 정렬합니다.
+      sortedDiraries.sort((a, b) => {
+        if (sortOrder === '최신순') {
+          return new Date(b.date) - new Date(a.date);
+        } else if (sortOrder === '오래된순') {
+          return new Date(a.date) - new Date(b.date);
+        }
+        return 0;
+      });
+
+      // 감정 필터링을 수행합니다.
+      const filteredDiaries = filterDiariesByEmotion(sortedDiraries);
+
       setLoadedDiraries(filteredDiaries);
     }
-  }, [emotionFilter]); // 감정 필터 상태가 변경될 때마다 실행됩니다.
+  }, [sortOrder, emotionFilter]);
 
-  // 일기 데이터를 화면에 표시하는 함수
-  // const renderDiaries = () => {
-  //   return loadedDiraries.map((dirary, index) => (
-  //     <div key={index} className="dirary-info">
-  //       <div className="emotion-img-box">
-  //         {/* 감정 이미지를 표시합니다. */}
-  //         <img src={emotionImages[dirary.emotion]} alt={dirary.emotion} />
-  //       </div>
-  //       <div className='info-box' onClick={() => handleViewButtonClick(dirary)}>
-  //         <div className='dirary-date' onClick={() => handleViewButtonClick(dirary)}>{dirary.date}</div>
-  //         <div className='dirary-content' onClick={() => handleViewButtonClick(dirary)} >{dirary.content}</div>
-  //       </div>
-  //       {/* 수정하기 버튼을 추가하고, 클릭 시 수정 페이지로 이동합니다. */}
-  //       <Link to='/DiraryEdit' className='dirary-edit-btn'>수정하기</Link>
-  //     </div>
-  //   ));
-  // };
-
-  // 최신순, 오래된순 정렬 함수
-  const sortDiaries = (diaries) => {
-    if (sortOrder === '최신순') {
-      return diaries.sort((a, b) => new Date(b.date) - new Date(a.date));
-    } else if (sortOrder === '오래된순') {
-      return diaries.sort((a, b) => new Date(a.date) - new Date(b.date));
-    }
-    return diaries;
-  };
 
   // 정렬 방법 변경 시 호출되는 함수
   const handleSortChange = (event) => {
@@ -83,7 +73,19 @@ const Alldirary = () => {
 
   const handleViewButtonClick = (dirary) => {
     // 선택한 다이어리 데이터를 다른 페이지로 전달
-    localStorage.setItem('selecteddirary', JSON.stringify(dirary));
+    localStorage.setItem('selectedDirary', JSON.stringify(dirary))
+  };
+
+  const handleDeleteButtonClick = (index) => {
+    // 로컬 스토리지에서 해당 인덱스의 데이터를 제거
+    const updatedDiraries = [...loadedDiraries];
+    updatedDiraries.splice(index, 1);
+
+    // 로컬 스토리지에 업데이트된 데이터 저장
+    localStorage.setItem('diraryData', JSON.stringify(updatedDiraries));
+
+    // 상태를 업데이트하여 화면을 리렌더링
+    setLoadedDiraries(updatedDiraries);
   };
 
   return (
@@ -113,18 +115,26 @@ const Alldirary = () => {
         </div>
         <div className='dirary-list'>
           {loadedDiraries.map((dirary, index) => (
-            <div className='dirary-info'>
+            <div className='dirary-info' key={index}>
               <Link
                 to='/diraryView'
                 className='dirary-view-link'
                 key={index}
                 onClick={() => handleViewButtonClick(dirary)} // 클릭 시 데이터 전달
               >
-                <div className="emotion-img-box">
-                  {/* 감정 이미지를 표시합니다. */}
-                  <img src={emotionImages[dirary.emotion]} alt={dirary.emotion} />
-                  <h2>&lt; {dirary.emotion} &gt;</h2>
-                </div>
+                {/* 수정할때 선택한 감정 이미지 표시 */}
+                {dirary.selectedEmotion ? (
+                  <div className='emotion-img-box edit'>
+                    <img src={emotionImages[dirary.selectedEmotion]} alt={dirary.selectedEmotion} />
+                    <h2>&lt; {dirary.selectedEmotion} &gt;</h2>
+                  </div>
+                ) : (
+                  <div className="emotion-img-box write">
+                    {/* 일기장을 작성할때 선택한 감정 이미지를 표시합니다. */}
+                    <img src={emotionImages[dirary.emotion]} alt={dirary.emotion} />
+                    <h2>&lt; {dirary.emotion} &gt;</h2>
+                  </div>
+                )}
                 <div className='info-box'>
                   <div className='dirary-date'>{dirary.date}</div>
                   <div className='dirary-content'>{dirary.content.slice(0, 50)}&nbsp;···</div>
@@ -132,9 +142,9 @@ const Alldirary = () => {
               </Link>
               <div className="edit-delete-btn-box">
                 <button className='dirary-edit-btn'>
-                  <Link to={`/diraryEdit/${dirary.diaryId}`} >수정하기</Link>
+                  <Link to='/DiraryEdit' onClick={() => handleViewButtonClick(dirary)}>수정하기</Link>
                 </button>
-                <button className='dirary-delete-btn'>삭제하기</button>
+                <button className='dirary-delete-btn' onClick={() => handleDeleteButtonClick(index)}>삭제하기</button>
               </div>
             </div>
           ))}

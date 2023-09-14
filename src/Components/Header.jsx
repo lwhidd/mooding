@@ -7,10 +7,10 @@ const Header = () => {
       <div className="row1-container">
         <ul>
           <li>
-            <Link to='/'>Modding- 하루의 감정을 기록하다.</Link>
+            <Link to='/'>Mooding- 하루의 감정을 기록하다.</Link>
           </li>
           <li>
-            <Link to='alldirary'>모든 일기 보기</Link>
+            <Link to='alldirary'>작성한 일기 모아보기</Link>
           </li>
         </ul>
       </div>

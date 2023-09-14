@@ -9,8 +9,10 @@
   padding-top: 100px;
 }
 #login .container {
-  width: 800px;
-  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   padding: 30px;
   border-radius: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -27,6 +29,7 @@
   text-underline-offset: 15px;
 }
 #login .container .login-box {
+  width: 800px;
   background-color: #fff;
   border-radius: 16px;
   padding: 20px;
@@ -38,41 +41,43 @@
   padding-bottom: 30px;
   font-weight: bold;
 }
-#login .container .login-box .login-btn-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 30px;
+#login .container .login-box ul {
+  width: 100%;
 }
-#login .container .login-box .login-btn-box button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 400px;
-  height: 45px;
-  border-radius: 5px;
+#login .container .login-box ul li {
+  width: 100%;
+  padding-bottom: 10px;
+}
+#login .container .login-box ul li.errmsg {
+  color: #f00;
+  font-size: 15px;
+}
+#login .container .login-box ul li input {
+  width: 100%;
+  height: 54px;
+  border: 1px solid #ddd;
+  padding: 0 15px;
+}
+#login .container .login-box ul li a {
+  color: #333;
+}
+#login .container .login-box ul li i {
+  margin: 0 5px;
+  color: #ddd;
+}
+#login .container .login-box ul li button {
+  width: 100%;
+  height: 54px;
+  border: 1px solid beige;
   cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
 }
-#login .container .login-box .login-btn-box button:nth-child(1) {
-  background-color: #b3b2b2;
+#login .container .login-box ul li button[type=submit] {
+  background: #f7dddd;
+  color: #000;
 }
-#login .container .login-box .login-btn-box button:nth-child(2) {
-  margin-top: 12px;
-  background-color: rgb(250, 250, 142);
-}
-#login .container .login-box .login-btn-box button span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  font-size: 25px;
-  font-weight: bold;
-}
-#login .container .login-box .login-btn-box button span:nth-child(1) {
-  padding-right: 12px;
-}
-#login .container .login-box .login-btn-box button img {
-  width: 35px;
-  height: 35px;
-  margin-right: 8px;
+#login .container .login-box ul li button[type=button] {
+  background: beige;
+  color: #000;
 }

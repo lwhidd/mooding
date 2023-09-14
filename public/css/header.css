@@ -4,7 +4,6 @@
   position: relative;
   z-index: 3;
   padding-bottom: 5px;
-  font-family: "Noto Sans KR";
 }
 #header .row1-container {
   width: 1200px;
@@ -29,7 +28,7 @@
   height: 100%;
   color: rgb(171, 177, 177);
   font-weight: bold;
-  font-size: 20px;
+  font-size: 30px;
 }
 #header .row1-container ul li a::after {
   content: "";

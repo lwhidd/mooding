@@ -1,12 +1,16 @@
+@charset "UTF-8";
 #diraryAdd {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+  margin: 30px;
   position: relative;
   z-index: 2;
   border-radius: 16px;
+  background-color: #FFDDC1;
+  /* 파스텔 오렌지 */
 }
 #diraryAdd .container {
   width: 100%;
@@ -24,7 +28,6 @@
 }
 #diraryAdd .container .today-emotion .title h2 {
   font-size: 40px;
-  color: #000;
   text-align: left;
 }
 #diraryAdd .container .today-emotion .select-emotion {
@@ -46,7 +49,8 @@
   background: #fff;
 }
 #diraryAdd .container .today-emotion .select-emotion button.select {
-  background-color: #A9CCE3;
+  background-color: #9ED2B6;
+  /* 파스텔 민트 */
 }
 #diraryAdd .container .today-emotion .select-emotion button img {
   width: 50%;
@@ -57,7 +61,8 @@
   font-weight: bold;
   font-size: 25px;
   padding: 10px 0;
-  color: #000;
+  color: #3D315B;
+  /* 파스텔 네이비 */
 }
 #diraryAdd .container .dirary-edit,
 #diraryAdd .container .dirary-add {
@@ -73,7 +78,6 @@
 #diraryAdd .container .dirary-edit .title h1,
 #diraryAdd .container .dirary-add .title h1 {
   font-size: 40px;
-  color: #000;
   text-align: left;
 }
 #diraryAdd .container .dirary-edit .dirary-input,
@@ -87,8 +91,9 @@
   padding: 20px;
   border: none;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 30px;
   margin-bottom: 30px;
+  font-family: "Nanum Pen Script";
 }
 #diraryAdd .container .dirary-edit .addinput-box,
 #diraryAdd .container .dirary-add .addinput-box {
@@ -105,13 +110,15 @@
   width: 420px;
   height: 50px;
   border-radius: 16px;
-  background-color: #A9CCE3;
+  background-color: #9ED2B6;
+  /* 파스텔 민트 */
 }
 #diraryAdd .container .dirary-edit .addinput-box .img-add-box h2,
 #diraryAdd .container .dirary-add .addinput-box .img-add-box h2 {
   font-size: 18px;
   font-weight: bold;
-  color: #000;
+  color: #3D315B;
+  /* 파스텔 네이비 */
 }
 #diraryAdd .container .dirary-edit .addinput-box .img-add-box .custom-file,
 #diraryAdd .container .dirary-add .addinput-box .img-add-box .custom-file {
@@ -140,7 +147,10 @@
   padding: 5px;
   border-radius: 16px;
   cursor: pointer;
-  background-color: #64c964;
+  background-color: #FF6B6B;
+  /* 파스텔 핑크 */
   font-weight: bold;
   font-size: 25px;
+  color: #3D315B;
+  /* 파스텔 네이비 */
 }

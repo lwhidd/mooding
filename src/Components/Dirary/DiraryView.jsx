@@ -23,7 +23,7 @@ const DiraryView = () => {
 
   useEffect(() => {
     // 로컬 스토리지에서 선택한 다이어리 데이터 가져오기
-    const storedSelectedDiary = localStorage.getItem('selecteddirary');
+    const storedSelectedDiary = localStorage.getItem('selectedDirary');
     if (storedSelectedDiary) {
       const parsedSelectedDiary = JSON.parse(storedSelectedDiary);
       setSelectedDiary(parsedSelectedDiary);
@@ -46,10 +46,18 @@ const DiraryView = () => {
               </button>
             </div>
             <div className='dirary-detail'>
-              <div className='dirary-emotion'>
-                <img src={emotionImages[selectedDiary.emotion]} alt={selectedDiary.emotion} />
-                <h2>&lt; {selectedDiary.emotion} &gt;</h2>
-              </div>
+              {selectedDiary.selectedEmotion ? (
+                <div className='dirary-emotion'>
+                  <img src={emotionImages[selectedDiary.selectedEmotion]} alt={selectedDiary.selectedEmotion} />
+                  <h2>&lt; {selectedDiary.selectedEmotion} &gt;</h2>
+                </div>
+              ) : (
+                <div className="dirary-emotion">
+                  {/* 일기장을 작성할때 선택한 감정 이미지를 표시합니다. */}
+                  <img src={emotionImages[selectedDiary.emotion]} alt={selectedDiary.emotion} />
+                  <h2>&lt; {selectedDiary.emotion} &gt;</h2>
+                </div>
+              )}
               <div className="dirary-content">
                 <h2>오늘의 일기</h2>
                 <p>{selectedDiary.content}</p>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import orange from './emoji-img/orange.png';
 import lemon from './emoji-img/lemon.png';
@@ -9,97 +8,82 @@ import tomato from './emoji-img/tomato.png';
 import blueberry from './emoji-img/blueberry.png';
 
 const emotionImages = {
-  '완전 좋음': lemon,
-  '좋음': orange,
+  '행복': orange,
+  '기쁨': lemon,
   '그럭저럭': avocado,
-  '힘듬': blueberry,
-  '매우 힘듬': tomato,
+  '슬픔': blueberry,
+  '짜증': tomato,
 };
 
-function DiraryAdd(props) {
-  const [content, setContent] = useState('');
-  const { diraryId } = useParams();
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedEmotion, setSelectedEmotion] = useState('');
-  const [currentDate, setCurrentDate] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  // 날짜를 생성 (현재 날짜를 사용하거나 다른 날짜를 선택할 수 있습니다)
-  const today = new Date();
-  const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+function DiraryEdit() {
+  const [diary, setDiary] = useState({
+    content: '',
+    selectedEmotion: '',
+    selectedImage: null,
+  });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { diraryId } = props;
-    if (diraryId) {
-      loaddirary(diraryId);
+    // 로컬 스토리지에서 'selecteddirary' 데이터를 불러옵니다.
+    const storedSelectedDirary = localStorage.getItem('selectedDirary');
+    if (storedSelectedDirary) {
+      const parsedSelectedDirary = JSON.parse(storedSelectedDirary);
+      // 불러온 데이터를 사용하여 상태 변수를 업데이트합니다.
+      setDiary({
+        content: parsedSelectedDirary.content || '',
+        selectedEmotion: parsedSelectedDirary.emotion || '',
+        selectedImage: parsedSelectedDirary.selectedImage || null,
+      });
     }
-    CurrentDate();
-  }, [props.diraryId]);
+  }, []);
 
-  const loaddirary = async (diraryId) => {
-    try {
-      const response = await axios.get(`/api/diaries/${diraryId}`);
-      setContent(response.data.content);
-      setIsEditMode(true);
-    } catch (error) {
-      console.error('일기 불러오기 오류:', error);
-    }
-  };
-
-  const CurrentDate = () => {
-    const today = new Date();
-    const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-    setCurrentDate(formattedDate);
-  };
-
-  const savediraryToLocalStorage = (diraryData) => {
-    const storedDiaries = JSON.parse(localStorage.getItem('diraryData')) || [];
-    const updatedDiaries = storedDiaries.map((dirary) => {
-      if (dirary.id === diraryId) {
-        // 선택한 일기를 수정하고 저장
-        return {
-          ...dirary,
-          content: diraryData.content,
-          emotion: diraryData.emotion,
-          selectedImage: diraryData.selectedImage,
-        };
-      }
-      return dirary;
-    });
-
-    localStorage.setItem('diraryData', JSON.stringify(updatedDiaries));
-  };
-
-  const handleSavedirary = async () => {
-    if (!content.trim()) {
+  const onClickSaveDirary = () => {
+    if (!diary.content.trim()) {
       alert('일기 내용을 입력하세요.');
       return;
     }
 
     try {
-      const newdiraryData = {
-        content,
-        emotion: selectedEmotion,
-        selectedImage: selectedImage,
-        date: formattedDate
-        // 필요한 다른 데이터를 추가하세요.
+      const existingData = JSON.parse(localStorage.getItem('diraryData')) || [];
+      const updatedDiraryData = {
+        ...diary,
       };
 
-      // setNewData((prevData) => [...prevData, newdiraryData]);
-      savediraryToLocalStorage(newdiraryData);
-      navigate(`/allDirary?content=${encodeURIComponent(content)}`);
+      // 로컬 스토리지에서 'selectedDirary' 데이터를 불러옵니다.
+      const storedSelectedDirary = localStorage.getItem('selectedDirary');
+
+      if (storedSelectedDirary) {
+        const parsedSelectedDirary = JSON.parse(storedSelectedDirary);
+
+        // 일기 데이터의 id를 확인합니다.
+        const diaryId = parsedSelectedDirary.id;
+
+        // 수정된 데이터를 반영합니다.
+        const updatedData = existingData.map((diary) => {
+          if (diary.id === diaryId) {
+            return { ...diary, ...updatedDiraryData };
+          }
+          return diary;
+        });
+
+        // 수정된 데이터를 다시 로컬 스토리지에 저장합니다.
+        localStorage.setItem('diraryData', JSON.stringify(updatedData));
+      }
+
+      // 수정 완료 후 AllDirary 페이지로 이동
+      navigate('/AllDirary');
       alert('수정 완료');
-      setContent('');
-      setSelectedEmotion('');
     } catch (error) {
       console.error('일기 저장 오류:', error);
     }
   };
 
   const handleEmotionSelection = (emotion) => {
-    setSelectedEmotion((prevEmotion) => (prevEmotion === emotion ? '' : emotion));
+    setDiary((prevDiary) => ({
+      ...prevDiary,
+      selectedEmotion: prevDiary.emotion === emotion ? '' : emotion,
+    }));
   };
 
   const handleImageChange = (e) => {
@@ -108,10 +92,10 @@ function DiraryAdd(props) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const imageSrc = e.target.result;
-        setSelectedImage(imageSrc);
-
-        // 이미지 경로를 로컬 스토리지에 저장
-        localStorage.setItem('selectedImage', imageSrc);
+        setDiary((prevDiary) => ({
+          ...prevDiary,
+          selectedImage: imageSrc,
+        }));
       };
       reader.readAsDataURL(file);
     }
@@ -121,15 +105,19 @@ function DiraryAdd(props) {
     <div id="diraryAdd">
       <div className="container">
         <TodayEmotion
-          selectedEmotion={selectedEmotion}
+          selectedEmotion={diary.selectedEmotion}
           handleEmotionSelection={handleEmotionSelection}
         />
         <DiraryForm
-          isEditMode={isEditMode}
-          content={content}
-          setContent={setContent}
-          handleSavedirary={handleSavedirary}
-          selectedImage={selectedImage}
+          content={diary.content}
+          setContent={(content) =>
+            setDiary((prevDiary) => ({
+              ...prevDiary,
+              content,
+            }))
+          }
+          onClickSaveDirary={onClickSaveDirary}
+          selectedImage={diary.selectedImage}
           handleImageChange={handleImageChange}
         />
       </div>
@@ -170,17 +158,16 @@ function EmotionButton({ emotion, selectedEmotion, handleEmotionSelection }) {
 }
 
 function DiraryForm({
-  isEditMode,
   content,
   setContent,
-  handleSavedirary,
+  onClickSaveDirary,
   selectedImage,
   handleImageChange,
 }) {
   return (
-    <div className={isEditMode ? 'dirary-edit' : 'dirary-add'}>
+    <div className="dirary-add">
       <div className="title">
-        <h1>{isEditMode ? '일기 수정' : '오늘의 일기'}</h1>
+        <h1>오늘의 일기</h1>
       </div>
       <div className="dirary-input">
         <textarea
@@ -212,7 +199,7 @@ function DiraryForm({
             onChange={handleImageChange}
           />
         </div>
-        <button className="completed" onClick={handleSavedirary}>
+        <button className="completed" onClick={onClickSaveDirary}>
           수정 완료
         </button>
       </div>
@@ -220,4 +207,4 @@ function DiraryForm({
   );
 }
 
-export default DiraryAdd;
+export default DiraryEdit;
